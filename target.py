@@ -34,6 +34,9 @@ def get_bars_and_stripes_target_distribution(nrows, ncols, fraction=1., method="
             bitstring += str(qubit)
 
         distribution_dict[bitstring] = 1.
+    print("*"*1000)
+    print(distribution_dict)
+    print("*"*1000)
 
     save_bitstring_distribution(BitstringDistribution(distribution_dict), "distribution.json")
 
@@ -69,17 +72,6 @@ def ip_dataset(nrows, ncols):
     Returns: 
         Array of list of BAS pattern. 
     '''
-
-    data = [] 
-    
-    for h in itertools.product([0,1], repeat=ncols):
-        pic = np.repeat([h], nrows, 0)
-        data.append(pic.ravel().tolist())
-          
-    for h in itertools.product([0,1], repeat=nrows):
-        pic = np.repeat([h], ncols, 1)
-        data.append(pic.ravel().tolist())
-    
     data = [
         [0,1,0,1],
         [0,1,1,1],
@@ -88,7 +80,6 @@ def ip_dataset(nrows, ncols):
         [1,1,0,1],
         [1,1,1,0],
     ]
-
     data = np.unique(np.asarray(data), axis=0)
     return data
 
@@ -109,6 +100,3 @@ def get_num_bars_and_stripes_patterns(nrows, ncols) -> int:
             num_patterns += math.factorial(dimension) // (math.factorial(dimension-num_choices) * math.factorial(num_choices))
 
     return num_patterns
-
-bars_and_stripes_zigzag(2,2)
-ip_dataset(2,2)
