@@ -27,6 +27,8 @@ def get_bars_and_stripes_target_distribution(nrows, ncols, fraction=1., method="
     data = random.sample(list(data), num_desired_patterns)
 
     distribution_dict = {}
+    
+
     for pattern in data: 
         bitstring = ""
         for qubit in pattern:
@@ -47,18 +49,28 @@ def bars_and_stripes_zigzag(nrows, ncols):
         Array of list of BAS pattern. 
     '''
 
-    data = [] 
+    data = [
+        [0,1,0,1],
+        [0,1,1,1],
+        [1,0,1,0],
+        [1,0,1,1],
+        [1,1,0,1],
+        [1,1,1,0],
+    ] 
     
-    for h in itertools.product([0,1], repeat=ncols):
-        pic = np.repeat([h], nrows, 0)
-        data.append(pic.ravel().tolist())
+    #for h in itertools.product([0,1], repeat=ncols):
+    #    pic = np.repeat([h], nrows, 0)
+    #    data.append(pic.ravel().tolist())
           
-    for h in itertools.product([0,1], repeat=nrows):
-        pic = np.repeat([h], ncols, 1)
-        data.append(pic.ravel().tolist())
+    #for h in itertools.product([0,1], repeat=nrows):
+    #    pic = np.repeat([h], ncols, 1)
+    #    data.append(pic.ravel().tolist())
     
+    print(data)
+
     data = np.unique(np.asarray(data), axis=0)
 
+    print(data)
     return data
 
 
@@ -79,3 +91,5 @@ def get_num_bars_and_stripes_patterns(nrows, ncols) -> int:
             num_patterns += math.factorial(dimension) // (math.factorial(dimension-num_choices) * math.factorial(num_choices))
 
     return num_patterns
+
+get_bars_and_stripes_target_distribution(2,2)
