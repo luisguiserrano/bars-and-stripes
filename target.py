@@ -17,8 +17,8 @@ def get_bars_and_stripes_target_distribution(nrows, ncols, fraction=1., method="
         Array of list of BAS pattern. 
     '''
     if method == "zigzag":
-        data = ip_dataset(nrows, ncols)
-        #data = bars_and_stripes_zigzag(nrows, ncols)
+        #data = ip_dataset(nrows, ncols)
+        data = bars_and_stripes_zigzag(nrows, ncols)
     else:
         raise RuntimeError("Method: {} is not supported for generated a target distribution for bars and stripes".format(method))
 
