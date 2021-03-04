@@ -17,6 +17,7 @@ def get_bars_and_stripes_target_distribution(nrows, ncols, fraction=1., method="
         Array of list of BAS pattern. 
     '''
     if method == "zigzag":
+        #data = ip_dataset(nrows, ncols)
         data = bars_and_stripes_zigzag(nrows, ncols)
     else:
         raise RuntimeError("Method: {} is not supported for generated a target distribution for bars and stripes".format(method))
@@ -27,8 +28,6 @@ def get_bars_and_stripes_target_distribution(nrows, ncols, fraction=1., method="
     data = random.sample(list(data), num_desired_patterns)
 
     distribution_dict = {}
-    
-
     for pattern in data: 
         bitstring = ""
         for qubit in pattern:
@@ -49,6 +48,38 @@ def bars_and_stripes_zigzag(nrows, ncols):
         Array of list of BAS pattern. 
     '''
 
+    data = [] 
+    
+    for h in itertools.product([0,1], repeat=ncols):
+        pic = np.repeat([h], nrows, 0)
+        data.append(pic.ravel().tolist())
+          
+    for h in itertools.product([0,1], repeat=nrows):
+        pic = np.repeat([h], ncols, 1)
+        data.append(pic.ravel().tolist())
+    
+    data = np.unique(np.asarray(data), axis=0)
+    return data
+
+def ip_dataset(nrows, ncols):
+    ''' Generates bars and stripes data in zigzag pattern
+    Args: 
+        nrows (int): number of rows in BAS dataset 
+        ncols (int): number of columns in BAS dataset
+    Returns: 
+        Array of list of BAS pattern. 
+    '''
+
+    data = [] 
+    
+    for h in itertools.product([0,1], repeat=ncols):
+        pic = np.repeat([h], nrows, 0)
+        data.append(pic.ravel().tolist())
+          
+    for h in itertools.product([0,1], repeat=nrows):
+        pic = np.repeat([h], ncols, 1)
+        data.append(pic.ravel().tolist())
+    
     data = [
         [0,1,0,1],
         [0,1,1,1],
@@ -56,23 +87,10 @@ def bars_and_stripes_zigzag(nrows, ncols):
         [1,0,1,1],
         [1,1,0,1],
         [1,1,1,0],
-    ] 
-    
-    #for h in itertools.product([0,1], repeat=ncols):
-    #    pic = np.repeat([h], nrows, 0)
-    #    data.append(pic.ravel().tolist())
-          
-    #for h in itertools.product([0,1], repeat=nrows):
-    #    pic = np.repeat([h], ncols, 1)
-    #    data.append(pic.ravel().tolist())
-    
-    print(data)
+    ]
 
     data = np.unique(np.asarray(data), axis=0)
-
-    print(data)
     return data
-
 
 def get_num_bars_and_stripes_patterns(nrows, ncols) -> int:
     ''' Get the number of bars and stripes patters for a 2-dimensional grid.
@@ -92,4 +110,5 @@ def get_num_bars_and_stripes_patterns(nrows, ncols) -> int:
 
     return num_patterns
 
-get_bars_and_stripes_target_distribution(2,2)
+bars_and_stripes_zigzag(2,2)
+ip_dataset(2,2)
