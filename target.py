@@ -17,8 +17,12 @@ def get_bars_and_stripes_target_distribution(nrows, ncols, fraction=1., method="
         Array of list of BAS pattern. 
     '''
     if method == "zigzag":
+        print("^"*1000)
+        print("calling ip_dataset with nrows", nrows)
         data = ip_dataset(nrows, ncols)
+        print(data)
         #data = bars_and_stripes_zigzag(nrows, ncols)
+        print("^"*1000)
     else:
         raise RuntimeError("Method: {} is not supported for generated a target distribution for bars and stripes".format(method))
 
@@ -72,16 +76,38 @@ def ip_dataset(nrows, ncols):
     Returns: 
         Array of list of BAS pattern. 
     '''
-    data = [
-        [0,1,0,1],
-        [0,1,1,1],
-        [1,0,1,0],
-        [1,0,1,1],
-        [1,1,0,1],
-        [1,1,1,0],
-    ]
+    #data = [
+    #    [0,1,0,1],
+    #    [0,1,1,1],
+    #    [1,0,1,0],
+    #    [1,0,1,1],
+    #    [1,1,0,1],
+    #    [1,1,1,0],
+    #]
+
+    print("building IP dataset with nrows", nrows)
+    data = IP(nrows)
+    print(data)
     data = np.unique(np.asarray(data), axis=0)
+    print(data)
     return data
+
+def IP(n):
+    n_2 = int(n/2)
+    first_half = [dec_to_bin_array(i, n_2) for i in range(2**(n_2))]
+    second_half = [dec_to_bin_array(i, n_2) for i in range(2**(n_2))]
+    result = []
+    for i in first_half:
+        for j in second_half:
+            if np.dot(i, j) % 2 == 1:
+                result.append(np.concatenate([i, j]))
+    print("IP: returning data with n", n)
+    print(result)
+    return result
+
+def dec_to_bin_array(dec, num_digits = 4):
+    result = [int(i) for i in bin(dec)[2:]]
+    return [0]*(num_digits-len(result)) + result
 
 def get_num_bars_and_stripes_patterns(nrows, ncols) -> int:
     ''' Get the number of bars and stripes patters for a 2-dimensional grid.
@@ -100,3 +126,5 @@ def get_num_bars_and_stripes_patterns(nrows, ncols) -> int:
             num_patterns += math.factorial(dimension) // (math.factorial(dimension-num_choices) * math.factorial(num_choices))
 
     return num_patterns
+
+#get_bars_and_stripes_target_distribution(6,6)

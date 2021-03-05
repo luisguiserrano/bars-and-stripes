@@ -111,4 +111,4 @@ def get_num_bars_and_stripes_patterns(nrows, ncols) -> int:
     return num_patterns
 
 bars_and_stripes_zigzag(2,2)
-ip_dataset(2,2)
+ip_dataset(4,4)
